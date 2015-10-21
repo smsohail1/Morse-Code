@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.widget.Toast;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,22 +12,27 @@ import java.util.Map;
  * Created by APPXONE on 10/14/2015.
  */
 public class continentals {
-    char value,value_spin;
+    char value, value_spin;
     String get_hashvalue = "";
-    String  get_hashvalue1 = "";
-    String  spin_hashvalue = "";
+    String get_hashvalue1 = "";
+    String spin_hashvalue = "";
     String american_text = "";
     int increment = 0;
     char get_morse_codes;
-int check11;
-int inc=0,counter=0;
-char get_words;
-    int rrr=0;
+    int check11;
+    int inc = 0, counter = 0;
+    char get_words;
+    int rrr = 0;
     String op;
-
+    MainActivity main;
+    int ca = 0;
+    int check_inc=0;
+String set_morse="";
     HashMap<String, String> continental_morse = new HashMap<>();
 
     public void Contenental_morse() {
+
+        main = new MainActivity();
         continental_morse.put("a", ".- ");
         continental_morse.put("i", ".. ");
 
@@ -114,40 +120,73 @@ char get_words;
         MainActivity.morse_code.setText("");
         //   op = MainActivity.t.getText().toString();
 
+       // check_inc=0;
+        for ( ca = 0; ca < MainActivity.t.length(); ca++) {
+            value = MainActivity.t.getText().charAt(ca);
+
+
+            for (Map.Entry<String, String> entry2 : continental_morse.entrySet()) {
+
+                //     String str = String.valueOf(et.getText().toString().toCharArray()[count1]);
+                //  CharSequence char_sequence=(CharSequence) str;
+                if (entry2.getKey().equalsIgnoreCase(value + "")) {
+                    get_hashvalue = entry2.getValue().toString();
+
+
+                    if (value == ' ') {
+                        if (MainActivity.t.getText().charAt(0)==' ') {
+                            //check_inc++;
+                            break;
+                          //  check_inc++;
+                            //MainActivity.play_stop.setImageResource(R.drawable.play_button);
+                            //MainActivity.spin.setEnabled(true);
+
+                        }
+
+
+                        else  {
+                            if (MainActivity.t.getText().charAt(ca) == ' ' && MainActivity.t.getText().charAt(ca-1)==' ') {
+
+
+                                break;
 
 
 
-            for (int ca = 0; ca < MainActivity.t.length(); ca++) {
-                value = MainActivity.t.getText().charAt(ca);
+                            }
+                           else if (MainActivity.t.getText().charAt(ca) == ' ') {
+                                set_morse=   "/ ";
 
 
-                for (Map.Entry<String, String> entry2 : continental_morse.entrySet()) {
-
-                    //     String str = String.valueOf(et.getText().toString().toCharArray()[count1]);
-                    //  CharSequence char_sequence=(CharSequence) str;
-                    if (entry2.getKey().equalsIgnoreCase(value + "")) {
-                        get_hashvalue = entry2.getValue().toString();
+                                MainActivity.morse_code.append(set_morse);
+                                set_morse="";
+                                break;
 
 
-                        //et.getText().toString();
 
+                            }
 
-                        MainActivity.morse_code.append(get_hashvalue);
-
-                        get_hashvalue = "";
+                        }
+                         //   check_inc++;
 
                     }
 
+
+                    //et.getText().toString();
+
+                    else {
+                        MainActivity.morse_code.append(get_hashvalue);
+                       // check_inc++;
+                        get_hashvalue = "";
+                        break;
+
+                    }
                 }
 
             }
 
+        }
+
     }
-
-
-
-
-
 
 
 //    public void spin_Continental() {
@@ -180,209 +219,194 @@ char get_words;
 //    }
 
 
-
-
-
-
-
-
-
-
-
-
     public void continental_morse_play() {
 
 
-
-        check11=0;
-
+        check11 = 0;
 
 
 //MainActivity.morse_code.setText("sdsdssdd");
-            if (MainActivity.m.isPlaying()) {
-                MainActivity.m.stop();
-                MainActivity.play_stop.setImageResource(R.drawable.stop_pressed_button);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        MainActivity.play_stop.setImageResource(R.drawable.play_button);
+        if (MainActivity.m.isPlaying()) {
+            MainActivity.m.stop();
+            MainActivity.play_stop.setImageResource(R.drawable.stop_pressed_button);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.play_stop.setImageResource(R.drawable.play_button);
 
-                    }
-                }, 200);
+                }
+            }, 200);
 
 
-                //  play_stop.setImageResource(R.drawable.play_button);
+            //  play_stop.setImageResource(R.drawable.play_button);
 
-                //  b.setText("Play");
-               // MainActivity.m.release();
-                //MainActivity.m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                check11 = 1;
-            }
+            //  b.setText("Play");
+            // MainActivity.m.release();
+            //MainActivity.m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
+            check11 = 1;
+        }
 
-            if (MainActivity.l.isPlaying()) {
-                MainActivity.l.stop();
+        if (MainActivity.l.isPlaying()) {
+            MainActivity.l.stop();
 
-               MainActivity.play_stop.setImageResource(R.drawable.stop_pressed_button);
+            MainActivity.play_stop.setImageResource(R.drawable.stop_pressed_button);
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                       MainActivity.play_stop.setImageResource(R.drawable.play_button);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.play_stop.setImageResource(R.drawable.play_button);
 
-                    }
-                }, 200);
+                }
+            }, 200);
 
-                //     play_stop.setImageResource(R.drawable.play_button);
+            //     play_stop.setImageResource(R.drawable.play_button);
 
-                //b.setText("Play");
-  //              MainActivity.l.release();
+            //b.setText("Play");
+            //              MainActivity.l.release();
 
 //                l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                check11 = 1;
-            }
+            check11 = 1;
+        }
 
 
-
-if(check11==0)
-{
+        if (check11 == 0) {
 
 //    MainActivity.morse_code.append("sdsdssdd");
 
-    american_text = MainActivity.t.getText().toString();
+            american_text = MainActivity.t.getText().toString();
 
 
-        if (american_text.equalsIgnoreCase("")) {
-          //  Toast toast1 = Toast.makeText(continentals.this, "Field cannot be empty", Toast.LENGTH_SHORT);
-            //toast1.show();
-        }
-        else {
-            for (int ii = 0; ii < american_text.length(); ii++) {
-                get_words = american_text.charAt(ii);
-                inc++;
-                // value = MainActivity.t.getText().charAt(cac);
-              //  if (counter == american_text.length()) {
-                //    MainActivity.play_stop.setImageResource(R.drawable.play_button);
-               // }
+            if (american_text.equalsIgnoreCase("")) {
+                //  Toast toast1 = Toast.makeText(continentals.this, "Field cannot be empty", Toast.LENGTH_SHORT);
+                //toast1.show();
+            } else {
+                for (int ii = 0; ii < american_text.length(); ii++) {
+                    get_words = american_text.charAt(ii);
+                    inc++;
+                    // value = MainActivity.t.getText().charAt(cac);
+                    //  if (counter == american_text.length()) {
+                    //    MainActivity.play_stop.setImageResource(R.drawable.play_button);
+                    // }
 
-                if (get_words == ' ') {
+                    if (get_words == ' ') {
 
-                    if (inc == american_text.length()) {
+                        if (inc == american_text.length()) {
 
-                    } else if (ii > 0) {
-                        if (american_text.charAt(ii) == ' ' && american_text.charAt(ii - 1) == ' ') {
+                        } else if (ii > 0) {
+                            if (american_text.charAt(ii) == ' ' && american_text.charAt(ii - 1) == ' ') {
+
+                            }
+                        } else if (american_text.charAt(ii) == ' ') {
+                            MainActivity.morse_code.append("/ ");
 
                         }
-                    } else if (american_text.charAt(ii) == ' ') {
-                        MainActivity.morse_code.append("/ ");
+                    } else {
 
-                    }
-                } else {
+                        for (Map.Entry<String, String> entry22 : continental_morse.entrySet()) {
 
-                    for (Map.Entry<String, String> entry22 : continental_morse.entrySet()) {
-
-                        get_morse_codes = american_text.charAt(ii);
-                        //     String str = String.valueOf(et.getText().toString().toCharArray()[count1]);
-                        //  CharSequence char_sequence=(CharSequence) str;
+                            get_morse_codes = american_text.charAt(ii);
+                            //     String str = String.valueOf(et.getText().toString().toCharArray()[count1]);
+                            //  CharSequence char_sequence=(CharSequence) str;
 
 
-                        if (entry22.getKey().equalsIgnoreCase(get_morse_codes + "")) {
-                            get_hashvalue1 = entry22.getValue().toString();
-                         //   MainActivity.morse_code.append("abce");
+                            if (entry22.getKey().equalsIgnoreCase(get_morse_codes + "")) {
+                                get_hashvalue1 = entry22.getValue().toString();
+                                //   MainActivity.morse_code.append("abce");
 
-                            //et.getText().toString();
-                            for (int loop = 0; loop < get_hashvalue.length(); loop++) {
-                                increment++;
-
-
-                                if (increment == get_hashvalue1.length() && get_hashvalue1.charAt(loop) == '.') {
+                                //et.getText().toString();
+                                for (int loop = 0; loop < get_hashvalue.length(); loop++) {
+                                    increment++;
 
 
-                                    MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
-                                    MainActivity.m.start();
-                                    MainActivity.m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                        @Override
-                                        public void onCompletion(MediaPlayer mp) {
-                                            MainActivity.m.stop();
-                                            // MainActivity.m.release();
-                                            //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
+                                    if (increment == get_hashvalue1.length() && get_hashvalue1.charAt(loop) == '.') {
 
 
-                                            SystemClock.sleep(720);
-
-                                        }
-                                    });
-
-
-                                } else if (get_hashvalue1.charAt(loop) == '.') {
-
-                                    MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
-                                    MainActivity.m.start();
-                                    MainActivity.m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                        @Override
-                                        public void onCompletion(MediaPlayer mp) {
-                                            MainActivity.m.stop();
-                                            // MainActivity.m.release();
-                                            //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
-
-                                            SystemClock.sleep(240);
-
-                                        }
-                                    });
+                                        MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
+                                        MainActivity.m.start();
+                                        MainActivity.m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(MediaPlayer mp) {
+                                                MainActivity.m.stop();
+                                                // MainActivity.m.release();
+                                                //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
 
 
-                                } else if (increment == get_hashvalue1.length() && get_hashvalue1.charAt(loop) == '-') {
-                                    MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
-                                    MainActivity.l.start();
-                                    MainActivity.l.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                        @Override
-                                        public void onCompletion(MediaPlayer mp) {
-                                            MainActivity.l.stop();
-                                            // MainActivity.m.release();
-                                            //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
+                                                SystemClock.sleep(720);
 
-                                            SystemClock.sleep(720);
+                                            }
+                                        });
 
-                                        }
-                                    });
-                                } else if (get_hashvalue1.charAt(loop) == '-') {
-                                    MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
-                                    MainActivity.l.start();
-                                    MainActivity.l.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                        @Override
-                                        public void onCompletion(MediaPlayer mp) {
-                                            MainActivity.l.stop();
-                                            // MainActivity.m.release();
-                                            //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                    } else if (get_hashvalue1.charAt(loop) == '.') {
 
-                                        }
-                                    });
-                                } else if (get_hashvalue1.charAt(loop) == ' ') {
-                                    MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
+                                        MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
+                                        MainActivity.m.start();
+                                        MainActivity.m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(MediaPlayer mp) {
+                                                MainActivity.m.stop();
+                                                // MainActivity.m.release();
+                                                //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
+
+                                                SystemClock.sleep(240);
+
+                                            }
+                                        });
+
+
+                                    } else if (increment == get_hashvalue1.length() && get_hashvalue1.charAt(loop) == '-') {
+                                        MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
+                                        MainActivity.l.start();
+                                        MainActivity.l.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(MediaPlayer mp) {
+                                                MainActivity.l.stop();
+                                                // MainActivity.m.release();
+                                                //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
+
+                                                SystemClock.sleep(720);
+
+                                            }
+                                        });
+                                    } else if (get_hashvalue1.charAt(loop) == '-') {
+                                        MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
+                                        MainActivity.l.start();
+                                        MainActivity.l.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(MediaPlayer mp) {
+                                                MainActivity.l.stop();
+                                                // MainActivity.m.release();
+                                                //   MainActivity.m = MediaPlayer.create(continentals.this, R.raw.morse_short);
+
+                                                SystemClock.sleep(240);
+
+                                            }
+                                        });
+                                    } else if (get_hashvalue1.charAt(loop) == ' ') {
+                                        MainActivity.morse_code.append(String.valueOf(get_hashvalue1.charAt(loop)));
+
+                                    }
+
 
                                 }
 
+                                //  MainActivity.morse_code.append(get_hashvalue1);
+
+                                // get_hashvalue1 = "";
 
                             }
 
-                            //  MainActivity.morse_code.append(get_hashvalue1);
-
-                            // get_hashvalue1 = "";
-
                         }
-
                     }
+                    counter++;
+
                 }
-                counter++;
+
 
             }
 
-
         }
-
-    }
-        check11=0;
+        check11 = 0;
 
     }
 
