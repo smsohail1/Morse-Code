@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Morse Code</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="select_language">
+        <item>International (ITU)</item>
+        <item>Continental (Gerke)</item>
+        <item>American (Morse)</item>
+    </string-array>
+</resources>

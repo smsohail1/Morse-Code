@@ -1,0 +1,214 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_morse1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+    <!-- <TextView android:text="a i p R" android:layout_width="fill_parent"
+
+         android:id="@+id/ss"
+         android:layout_height="wrap_content" />-->
+    <RelativeLayout
+
+        android:id="@+id/header1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="Helvetica Roman"
+            android:gravity="center"
+            android:text="MORSE CODE"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/input_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header1"
+        android:layout_margin="25dp"
+        android:background="@drawable/input"
+
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/morsecode_box"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="Enter Plain Text"
+
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="#00bcd4"
+            android:textColorHint="#00bcd4"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/spinner"
+
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_text"
+        android:layout_margin="25dp"
+        android:background="@drawable/dropdown"
+        android:gravity="center">
+        <!--<TextView-->
+
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Select Language"-->
+
+        <!--android:textSize="18sp"-->
+        <!--android:layout_margin="11dp"-->
+        <!--/>-->
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null" />
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/text_box"
+        android:layout_width="fill_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_below="@+id/spinner"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/text_box_code">
+
+        <ScrollView
+
+            android:id="@+id/aas"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/morse_code"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:textColor="#00bcd4"
+
+                android:textSize="29sp" />
+        </ScrollView>
+    </RelativeLayout>
+
+
+    <!--android:id="@+id/input"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@drawable/input"-->
+
+    <!--/>-->
+
+
+    <LinearLayout
+        android:id="@+id/button"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/sss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play_button" />
+
+    </LinearLayout>
+    <!--<EditText-->
+    <!--android:focusable="true"-->
+    <!--android:focusableInTouchMode="true"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:hint="Enter Plain Text"-->
+
+    <!--android:id="@+id/morsecode_box"-->
+    <!--android:isScrollContainer="true"-->
+
+    <!--android:singleLine="true"-->
+    <!--android:maxLines="1"-->
+    <!-- -->
+    <!--android:layout_below="@+id/header1"-->
+
+
+    <!--/>-->
+
+
+    <!--<TextView-->
+    <!--android:layout_marginTop="40dp"-->
+    <!--android:text="asa"-->
+    <!--android:id="@+id/lo"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/sh"-->
+    <!--android:layout_marginLeft="40dp"-->
+    <!--android:layout_marginTop="40dp"-->
+    <!--android:text="ssaa"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:id="@+id/controllers"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<Button-->
+    <!--android:id="@+id/sss"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:text="Play"-->
+
+    <!--android:layout_height="wrap_content" />-->
+
+    <!--&lt;!&ndash;<Button&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/translate"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="Translate"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content" />&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash;<Button&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/stop"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="Stop"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<Button&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/download"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="Download"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content" />&ndash;&gt;-->
+    <!--</LinearLayout>-->
+
+</RelativeLayout>
