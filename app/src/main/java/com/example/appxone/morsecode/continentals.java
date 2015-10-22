@@ -134,7 +134,7 @@ String set_morse="";
 
 
                     if (value == ' ') {
-                        if (MainActivity.t.getText().charAt(0)==' ') {
+                        if (MainActivity.t.getText().charAt(ca)==' ' && ca==0) {
                             //check_inc++;
                             break;
                           //  check_inc++;

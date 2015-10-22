@@ -8,11 +8,12 @@ import java.util.Map;
  */
 public class american {
     char american_value;
-    String get_american_hashvalue="";
+    String get_american_hashvalue = "";
     HashMap<String, String> american_morse = new HashMap<>();
+    String set_morse_american = "";
+    int cac=0;
 
-    public  void american_Morse()
-    {
+    public void american_Morse() {
         american_morse.put("a", ".- ");
         american_morse.put("i", ".. ");
 
@@ -98,13 +99,11 @@ public class american {
     }
 
 
-
-    public  void get_American()
-    {
+    public void get_American() {
         MainActivity.morse_code.setText("");
-        String o = MainActivity.t.getText().toString();
-        for (int ca = 0; ca < MainActivity.t.length(); ca++) {
-            american_value = MainActivity.t.getText().charAt(ca);
+
+        for (cac = 0; cac < MainActivity.t.length(); cac++) {
+            american_value = MainActivity.t.getText().charAt(cac);
 
 
             for (Map.Entry<String, String> entry1 : american_morse.entrySet()) {
@@ -116,10 +115,41 @@ public class american {
                     //et.getText().toString();
 
 
-                    MainActivity.morse_code.append(get_american_hashvalue);
+                    if (american_value == ' ') {
+                        if (MainActivity.t.getText().charAt(cac) == ' ' && cac == 0) {
+                            //check_inc++;
+                            break;
+                            //  check_inc++;
+                            //MainActivity.play_stop.setImageResource(R.drawable.play_button);
+                            //MainActivity.spin.setEnabled(true);
 
-                    get_american_hashvalue = "";
+                        } else {
+                            if (MainActivity.t.getText().charAt(cac) == ' ' && MainActivity.t.getText().charAt(cac - 1) == ' ') {
 
+
+                                break;
+
+
+                            } else if (MainActivity.t.getText().charAt(cac) == ' ') {
+                                set_morse_american = "/ ";
+
+
+                                MainActivity.morse_code.append(set_morse_american);
+                                set_morse_american = "";
+                                break;
+
+
+                            }
+
+                        }
+                        //   check_inc++;
+
+                    } else {
+                        MainActivity.morse_code.append(get_american_hashvalue);
+
+                        get_american_hashvalue = "";
+                        break;
+                    }
                 }
 
             }
@@ -128,8 +158,7 @@ public class american {
     }
 
 
-    public  void american_morse_play()
-    {
+    public void american_morse_play() {
 
     }
 }

@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
     public static ImageView play_stop;
     int inc = 0;
     ArrayList<String> allEds = new ArrayList<String>();
-   public static char text_char[] = new char[100];
-    public  static String get_text_box;
- public  static   int text_length;
-  public static String morse_code_text;
+    public static char text_char[] = new char[100];
+    public static String get_text_box;
+    public static int text_length;
+    public static String morse_code_text;
     public static TextView morse_code;
     TextView ll, ss;
     int check = 0;
@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
     int positon_spinner = 0;
     int get_share_pref;
     int positon_spinner23;
-
+    String set_morse_itu = "";
     SharedPreferences share_pref_get;
+    int cao = 0;
 
     //    public   String item="International(ITU)";
 //    public   int position=0;
@@ -100,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         get_share_pref = share_pref_get.getInt("morse", 0);
-
-
 
 
         ArrayAdapter<String> array = new ArrayAdapter<String>(getApplicationContext(), R.layout.dropdownselected,
@@ -282,13 +281,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                if(m.isPlaying() || l.isPlaying())
-                {
-                  //  spin.getSelectedView();
+                if (m.isPlaying() || l.isPlaying()) {
+                    //  spin.getSelectedView();
                     spin.setEnabled(false);
 
-                }
-else {
+                } else {
                     spin.setOnItemSelectedListener(new onItemselected());
                 }
 //                SharedPreferences share_pref=getApplicationContext().getSharedPreferences("option", MODE_PRIVATE);
@@ -341,8 +338,8 @@ else {
 
                         morse_code.setText("");
                         String o = t.getText().toString();
-                        for (int ca = 0; ca < t.length(); ca++) {
-                            eeeq = t.getText().charAt(ca);
+                        for (cao = 0; cao < t.length(); cao++) {
+                            eeeq = t.getText().charAt(cao);
 
 
                             for (Map.Entry<String, String> entry : hashmap.entrySet()) {
@@ -354,10 +351,41 @@ else {
                                     //et.getText().toString();
 
 
-                                    morse_code.append(char_seq);
+                                    if (eeeq == ' ') {
+                                        if (MainActivity.t.getText().charAt(cao) == ' ' && cao == 0) {
+                                            //check_inc++;
+                                            break;
+                                            //  check_inc++;
+                                            //MainActivity.play_stop.setImageResource(R.drawable.play_button);
+                                            //MainActivity.spin.setEnabled(true);
 
-                                    char_seq = "";
+                                        } else {
+                                            if (MainActivity.t.getText().charAt(cao) == ' ' && MainActivity.t.getText().charAt(cao - 1) == ' ') {
 
+
+                                                break;
+
+
+                                            } else if (MainActivity.t.getText().charAt(cao) == ' ') {
+                                                set_morse_itu = "/ ";
+
+
+                                                MainActivity.morse_code.append(set_morse_itu);
+                                                set_morse_itu = "";
+                                                break;
+
+
+                                            }
+
+                                        }
+                                        //   check_inc++;
+
+                                    } else {
+                                        morse_code.append(char_seq);
+
+                                        char_seq = "";
+                                        break;
+                                    }
                                 }
 
                             }
@@ -706,7 +734,7 @@ else {
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -720,7 +748,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
                             if (inc < text_length) {
                                 validate_continental(text_char[inc]);
@@ -751,7 +779,7 @@ else {
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -765,7 +793,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
 
 
@@ -797,7 +825,7 @@ else {
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -812,7 +840,7 @@ else {
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -829,7 +857,7 @@ else {
 
                                     //  t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -852,12 +880,7 @@ else {
                 }
             });
 
-        }
-
-
-
-
-        else if (text_continental == 'R' || text_continental == 'r') {
+        } else if (text_continental == 'R' || text_continental == 'r') {
             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
             m.start();
             morse_code_text += ".";
@@ -870,7 +893,7 @@ else {
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -884,7 +907,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -898,7 +921,7 @@ else {
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     //    t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -922,9 +945,7 @@ else {
                 }
             });
 
-        }
-
-        else if (text_continental == 'P' || text_continental == 'p') {
+        } else if (text_continental == 'P' || text_continental == 'p') {
             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
             m.start();
             morse_code_text += ".";
@@ -938,7 +959,7 @@ else {
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -952,7 +973,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -967,7 +988,7 @@ else {
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -983,7 +1004,7 @@ else {
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -996,7 +1017,7 @@ else {
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -1042,7 +1063,7 @@ else {
 
 
                     //   t.setTextColor(Color.parseColor("#000000"));
-                    SystemClock.sleep(720);
+                    SystemClock.sleep(240);
 
                     inc++;
 
@@ -1075,7 +1096,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     //   t.setTextColor(Color.parseColor("#000000"));
-                    SystemClock.sleep(720);
+                    SystemClock.sleep(240);
 
                     inc++;
 
@@ -1106,7 +1127,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -1121,7 +1142,7 @@ else {
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             //  t.setTextColor(Color.parseColor("#000000"));
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
 
                             if (inc < text_length) {
@@ -1155,7 +1176,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -1170,7 +1191,7 @@ else {
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             //   t.setTextColor(Color.parseColor("#000000"));
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
 
                             inc++;
 
@@ -1206,7 +1227,7 @@ else {
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -1221,7 +1242,7 @@ else {
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -1236,7 +1257,7 @@ else {
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -1248,7 +1269,7 @@ else {
                                             m.stop();
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -1263,7 +1284,7 @@ else {
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -1309,7 +1330,7 @@ else {
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1323,7 +1344,7 @@ else {
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -1337,7 +1358,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1354,7 +1375,7 @@ else {
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -1383,11 +1404,7 @@ else {
 
                 }
             });
-        }
-
-
-
-        else if (text_continental == 'Q' || text_continental == 'q') {
+        } else if (text_continental == 'Q' || text_continental == 'q') {
             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
             l.start();
             morse_code_text += "-";
@@ -1400,7 +1417,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -1414,7 +1431,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1427,7 +1444,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1444,7 +1461,7 @@ else {
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -1474,12 +1491,7 @@ else {
                 }
             });
 
-        }
-
-
-
-
-        else if (text_continental == 'K' || text_continental == 'k') {
+        } else if (text_continental == 'K' || text_continental == 'k') {
             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
             l.start();
             morse_code_text += "-";
@@ -1492,7 +1504,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -1506,7 +1518,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1520,7 +1532,7 @@ else {
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     // t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -1561,7 +1573,7 @@ else {
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1575,7 +1587,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1591,7 +1603,7 @@ else {
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -1627,7 +1639,7 @@ else {
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -1641,7 +1653,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1654,7 +1666,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1669,7 +1681,7 @@ else {
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1683,7 +1695,7 @@ else {
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
 
@@ -1728,7 +1740,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -1742,7 +1754,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1757,7 +1769,7 @@ else {
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
                                     //         t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
 
@@ -1784,11 +1796,7 @@ else {
                 }
             });
 
-        }
-
-
-
-        else if (text_continental == 'F' || text_continental == 'f') {
+        } else if (text_continental == 'F' || text_continental == 'f') {
             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
             m.start();
             morse_code_text += ".";
@@ -1803,7 +1811,7 @@ else {
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1817,7 +1825,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1831,7 +1839,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1847,7 +1855,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //         t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -1876,9 +1884,7 @@ else {
                 }
             });
 
-        }
-
-        else if (text_continental == 'W' || text_continental == 'w') {
+        } else if (text_continental == 'W' || text_continental == 'w') {
             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
             m.start();
             morse_code_text += ".";
@@ -1890,7 +1896,7 @@ else {
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1904,7 +1910,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -1920,7 +1926,7 @@ else {
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
                                     //        t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -1960,7 +1966,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -1974,7 +1980,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -1988,7 +1994,7 @@ else {
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     //    t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -2029,7 +2035,7 @@ else {
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -2043,7 +2049,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2056,7 +2062,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -2070,7 +2076,7 @@ else {
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -2084,7 +2090,7 @@ else {
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                                     m.start();
@@ -2098,7 +2104,7 @@ else {
                                                             m.release();
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -2148,7 +2154,7 @@ else {
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -2162,7 +2168,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -2174,7 +2180,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -2187,7 +2193,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -2219,10 +2225,7 @@ else {
                 }
             });
 
-        }
-
-
-        else if (text_continental == 'C' || text_continental == 'c') {
+        } else if (text_continental == 'C' || text_continental == 'c') {
             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
             l.start();
             morse_code_text += "-";
@@ -2235,7 +2238,7 @@ else {
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -2249,7 +2252,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2262,7 +2265,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -2275,7 +2278,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //      t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -2308,10 +2311,7 @@ else {
                 }
             });
 
-        }
-
-
-        else if (text_continental == 'Y' || text_continental == 'y') {
+        } else if (text_continental == 'Y' || text_continental == 'y') {
             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
             l.start();
             morse_code_text += "-";
@@ -2324,7 +2324,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -2338,7 +2338,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2351,7 +2351,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -2366,7 +2366,7 @@ else {
                                             //    t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -2379,7 +2379,7 @@ else {
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -2414,11 +2414,7 @@ else {
                 }
             });
 
-        }
-
-
-
-        else if (text_continental == 'L' || text_continental == 'l') {
+        } else if (text_continental == 'L' || text_continental == 'l') {
             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
             m.start();
             morse_code_text += ".";
@@ -2432,7 +2428,7 @@ else {
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2445,7 +2441,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -2457,7 +2453,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -2470,7 +2466,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
                                             if (inc < text_length) {
                                                 validate_continental(text_char[inc]);
@@ -2499,9 +2495,7 @@ else {
                 }
             });
 
-        }
-
-        else if (text_continental == 'H' || text_continental == 'h') {
+        } else if (text_continental == 'H' || text_continental == 'h') {
             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
             m.start();
             morse_code_text += ".";
@@ -2514,7 +2508,7 @@ else {
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2528,7 +2522,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2542,7 +2536,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2556,7 +2550,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -2598,7 +2592,7 @@ else {
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2612,7 +2606,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2626,7 +2620,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2640,7 +2634,7 @@ else {
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -2681,7 +2675,7 @@ else {
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2695,7 +2689,7 @@ else {
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -2709,7 +2703,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2727,7 +2721,7 @@ else {
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //   t.setTextColor(Color.parseColor("#000000"));
 
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -2775,7 +2769,7 @@ else {
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2789,7 +2783,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2806,7 +2800,7 @@ else {
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2823,7 +2817,7 @@ else {
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2839,7 +2833,7 @@ else {
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -2881,7 +2875,7 @@ else {
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2895,7 +2889,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2909,7 +2903,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -2923,7 +2917,7 @@ else {
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2937,7 +2931,7 @@ else {
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -2983,7 +2977,7 @@ else {
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -2997,7 +2991,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3011,7 +3005,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3025,7 +3019,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -3038,7 +3032,7 @@ else {
                                                     l.start();
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -3085,7 +3079,7 @@ else {
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -3099,7 +3093,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -3113,7 +3107,7 @@ else {
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -3151,7 +3145,7 @@ else {
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -3165,7 +3159,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -3177,7 +3171,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -3190,7 +3184,7 @@ else {
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -3205,7 +3199,7 @@ else {
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                                     m.start();
@@ -3221,7 +3215,7 @@ else {
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -3272,7 +3266,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -3286,7 +3280,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3299,7 +3293,7 @@ else {
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3312,7 +3306,7 @@ else {
                                             m.stop();
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
 
@@ -3356,7 +3350,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -3370,7 +3364,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3389,7 +3383,7 @@ else {
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3405,7 +3399,7 @@ else {
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3420,7 +3414,7 @@ else {
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -3466,7 +3460,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -3480,7 +3474,7 @@ else {
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -3498,7 +3492,7 @@ else {
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -3539,7 +3533,7 @@ else {
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -3553,7 +3547,7 @@ else {
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3572,7 +3566,7 @@ else {
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -3587,7 +3581,7 @@ else {
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -3618,60 +3612,49 @@ else {
                 }
             });
 
-        }
-
-
-        else if(text_continental==' ') {
+        } else if (text_continental == ' ') {
             if (inc == text_length) {
                 play_stop.setImageResource(R.drawable.play_button);
                 spin.setEnabled(true);
 
-            }
-           else if (inc > 0)
-            {
-             if (get_text_box.charAt(inc) == ' ' && get_text_box.charAt(inc - 1) == ' ') {
+            } else if (inc > 0) {
+                if (get_text_box.charAt(inc) == ' ' && get_text_box.charAt(inc - 1) == ' ') {
 
-                 inc++;
-                 if (inc < text_length) {
-                     validate_continental(text_char[inc]);
-                 } else if (inc == text_length) {
-                     // stop.setEnabled(false);
-                     //translate.setEnabled(true);
-                     //b.setEnabled(true);
-                     // b.setText("Play");
-                     play_stop.setImageResource(R.drawable.play_button);
-                     spin.setEnabled(true);
+                    inc++;
+                    if (inc < text_length) {
+                        validate_continental(text_char[inc]);
+                    } else if (inc == text_length) {
+                        // stop.setEnabled(false);
+                        //translate.setEnabled(true);
+                        //b.setEnabled(true);
+                        // b.setText("Play");
+                        play_stop.setImageResource(R.drawable.play_button);
+                        spin.setEnabled(true);
 
-                 }
+                    }
 
 
-             }
+                } else if (get_text_box.charAt(inc) == ' ') {
+                    morse_code_text += "/ ";
 
-             else if(get_text_box.charAt(inc)==' ')
-             {
-                 morse_code_text += "/ ";
-
-                 SystemClock.sleep(1680);
+                    SystemClock.sleep(560);
 
 
-                 inc++;
+                    inc++;
 
-                 if (inc < text_length) {
-                     validate_continental(text_char[inc]);
-                 } else if (inc == text_length) {
-                     // stop.setEnabled(false);
-                     //translate.setEnabled(true);
-                     //b.setEnabled(true);
-                     // b.setText("Play");
-                     play_stop.setImageResource(R.drawable.play_button);
-                     spin.setEnabled(true);
+                    if (inc < text_length) {
+                        validate_continental(text_char[inc]);
+                    } else if (inc == text_length) {
+                        // stop.setEnabled(false);
+                        //translate.setEnabled(true);
+                        //b.setEnabled(true);
+                        // b.setText("Play");
+                        play_stop.setImageResource(R.drawable.play_button);
+                        spin.setEnabled(true);
 
-                 }
-             }
-        }
-
-else
-            {
+                    }
+                }
+            } else {
                 inc++;
                 if (inc < text_length) {
                     validate_continental(text_char[inc]);
@@ -3686,6 +3669,8 @@ else
                 }
             }
         }
+
+
 
 
         else {
@@ -3725,7 +3710,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -3739,7 +3724,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
                             if (inc < text_length) {
                                 validate_american(text_char[inc]);
@@ -3770,7 +3755,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3784,7 +3769,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
 
 
@@ -3816,7 +3801,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3831,7 +3816,7 @@ else
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3848,7 +3833,7 @@ else
 
                                     //  t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -3884,7 +3869,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3898,7 +3883,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -3912,7 +3897,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     //    t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -3950,7 +3935,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3964,7 +3949,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -3979,7 +3964,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -3995,7 +3980,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -4010,7 +3995,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
                                                     //   t.setTextColor(Color.parseColor("#000000"));
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -4056,7 +4041,7 @@ else
 
 
                     //   t.setTextColor(Color.parseColor("#000000"));
-                    SystemClock.sleep(720);
+                    SystemClock.sleep(240);
 
                     inc++;
 
@@ -4089,7 +4074,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     //   t.setTextColor(Color.parseColor("#000000"));
-                    SystemClock.sleep(720);
+                    SystemClock.sleep(240);
 
                     inc++;
 
@@ -4120,7 +4105,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -4135,7 +4120,7 @@ else
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             //  t.setTextColor(Color.parseColor("#000000"));
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
 
                             if (inc < text_length) {
@@ -4169,7 +4154,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -4184,7 +4169,7 @@ else
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             //   t.setTextColor(Color.parseColor("#000000"));
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
 
                             inc++;
 
@@ -4220,7 +4205,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -4235,7 +4220,7 @@ else
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
 
                             inc++;
 
@@ -4272,7 +4257,7 @@ else
                     l.stop();
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4286,7 +4271,7 @@ else
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -4300,7 +4285,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4317,7 +4302,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -4359,7 +4344,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -4373,7 +4358,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -4386,7 +4371,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4403,7 +4388,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -4447,7 +4432,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -4461,7 +4446,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -4475,7 +4460,7 @@ else
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     // t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -4517,7 +4502,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4531,7 +4516,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -4547,7 +4532,7 @@ else
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -4583,7 +4568,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -4597,7 +4582,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4610,7 +4595,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4624,7 +4609,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //        t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
 
@@ -4667,7 +4652,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -4681,7 +4666,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4696,7 +4681,7 @@ else
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
                                     //         t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
 
@@ -4739,7 +4724,7 @@ else
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -4753,7 +4738,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4768,7 +4753,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -4806,7 +4791,7 @@ else
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -4820,7 +4805,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -4836,7 +4821,7 @@ else
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
                                     //        t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -4876,7 +4861,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -4890,7 +4875,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4904,7 +4889,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     //    t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -4945,7 +4930,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -4959,7 +4944,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -4972,7 +4957,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -4985,7 +4970,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -5028,7 +5013,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -5042,7 +5027,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -5054,7 +5039,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -5067,7 +5052,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -5113,7 +5098,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -5127,7 +5112,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5141,7 +5126,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -5185,7 +5170,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -5199,7 +5184,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5212,7 +5197,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -5225,7 +5210,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -5271,7 +5256,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5286,7 +5271,7 @@ else
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
                             if (inc < text_length) {
                                 validate_american(text_char[inc]);
@@ -5322,7 +5307,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5336,7 +5321,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5350,7 +5335,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5364,7 +5349,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -5406,7 +5391,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5420,7 +5405,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5434,7 +5419,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5448,7 +5433,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -5489,7 +5474,7 @@ else
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5503,7 +5488,7 @@ else
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -5517,7 +5502,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5535,7 +5520,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //   t.setTextColor(Color.parseColor("#000000"));
 
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -5583,7 +5568,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5597,7 +5582,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5614,7 +5599,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5631,7 +5616,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5647,7 +5632,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -5689,7 +5674,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5703,7 +5688,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5717,7 +5702,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5731,7 +5716,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5745,7 +5730,7 @@ else
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -5791,7 +5776,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5805,7 +5790,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5819,7 +5804,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -5833,7 +5818,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5846,7 +5831,7 @@ else
                                                     l.start();
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -5893,7 +5878,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5907,7 +5892,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -5921,7 +5906,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -5959,7 +5944,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -5973,7 +5958,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -5985,7 +5970,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -5998,7 +5983,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -6013,7 +5998,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                                     m.start();
@@ -6029,7 +6014,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -6080,7 +6065,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -6094,7 +6079,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6107,7 +6092,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6120,7 +6105,7 @@ else
                                             m.stop();
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
 
@@ -6164,7 +6149,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -6178,7 +6163,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6197,7 +6182,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6213,7 +6198,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6228,7 +6213,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -6274,7 +6259,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -6288,7 +6273,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6307,7 +6292,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6321,7 +6306,7 @@ else
                                             l.stop();
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -6364,7 +6349,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -6378,7 +6363,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6397,7 +6382,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6412,7 +6397,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -6443,20 +6428,12 @@ else
                 }
             });
 
-        }
-
-
-
-
-
-        else if(text_american==' ') {
+        } else if (text_american == ' ') {
             if (inc == text_length) {
                 play_stop.setImageResource(R.drawable.play_button);
                 spin.setEnabled(true);
 
-            }
-            else if (inc > 0)
-            {
+            } else if (inc > 0) {
                 if (get_text_box.charAt(inc) == ' ' && get_text_box.charAt(inc - 1) == ' ') {
 
                     inc++;
@@ -6473,13 +6450,10 @@ else
                     }
 
 
-                }
-
-                else if(get_text_box.charAt(inc)==' ')
-                {
+                } else if (get_text_box.charAt(inc) == ' ') {
                     morse_code_text += "/ ";
 
-                    SystemClock.sleep(1680);
+                    SystemClock.sleep(560);
 
 
                     inc++;
@@ -6496,10 +6470,7 @@ else
 
                     }
                 }
-            }
-
-            else
-            {
+            } else {
                 inc++;
                 if (inc < text_length) {
                     validate_american(text_char[inc]);
@@ -6513,27 +6484,7 @@ else
 
                 }
             }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        else {
+        } else {
             inc++;
 
             if (inc < text_length) {
@@ -6572,7 +6523,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6586,7 +6537,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
                             if (inc < text_length) {
                                 validate(text_char[inc]);
@@ -6618,7 +6569,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6632,7 +6583,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
 
 
@@ -6664,7 +6615,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6679,7 +6630,7 @@ else
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -6696,7 +6647,7 @@ else
 
                                     //  t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -6732,7 +6683,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6746,7 +6697,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -6760,7 +6711,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     //    t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -6798,7 +6749,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6812,7 +6763,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -6827,7 +6778,7 @@ else
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -6842,7 +6793,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -6884,7 +6835,7 @@ else
 
 
                     //   t.setTextColor(Color.parseColor("#000000"));
-                    SystemClock.sleep(720);
+                    SystemClock.sleep(240);
 
                     inc++;
 
@@ -6918,7 +6869,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     //   t.setTextColor(Color.parseColor("#000000"));
-                    SystemClock.sleep(720);
+                    SystemClock.sleep(240);
 
                     inc++;
 
@@ -6950,7 +6901,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -6965,7 +6916,7 @@ else
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             //  t.setTextColor(Color.parseColor("#000000"));
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
                             inc++;
 
                             if (inc < text_length) {
@@ -7000,7 +6951,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -7015,7 +6966,7 @@ else
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             //   t.setTextColor(Color.parseColor("#000000"));
-                            SystemClock.sleep(720);
+                            SystemClock.sleep(240);
 
                             inc++;
 
@@ -7052,7 +7003,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -7066,7 +7017,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7083,7 +7034,7 @@ else
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     //   t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -7124,7 +7075,7 @@ else
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7138,7 +7089,7 @@ else
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -7152,7 +7103,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7169,7 +7120,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -7211,7 +7162,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -7225,7 +7176,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7238,7 +7189,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7255,7 +7206,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //   t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -7298,7 +7249,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -7312,7 +7263,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7326,7 +7277,7 @@ else
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     // t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -7368,7 +7319,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7382,7 +7333,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7398,7 +7349,7 @@ else
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -7435,7 +7386,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -7449,7 +7400,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7462,7 +7413,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7476,7 +7427,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //        t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
 
@@ -7519,7 +7470,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -7533,7 +7484,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7548,7 +7499,7 @@ else
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
                                     //         t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
 
@@ -7590,7 +7541,7 @@ else
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7604,7 +7555,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7618,7 +7569,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7634,7 +7585,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //         t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -7675,7 +7626,7 @@ else
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7689,7 +7640,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -7705,7 +7656,7 @@ else
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
                                     //        t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
                                     inc++;
 
                                     if (inc < text_length) {
@@ -7745,7 +7696,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -7759,7 +7710,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7773,7 +7724,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     //    t.setTextColor(Color.parseColor("#000000"));
-                                    SystemClock.sleep(720);
+                                    SystemClock.sleep(240);
 
                                     inc++;
 
@@ -7814,7 +7765,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -7828,7 +7779,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -7841,7 +7792,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     l.start();
@@ -7854,7 +7805,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -7897,7 +7848,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -7911,7 +7862,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -7923,7 +7874,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -7936,7 +7887,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -7981,7 +7932,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -7995,7 +7946,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8008,7 +7959,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -8021,7 +7972,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //      t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -8067,7 +8018,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -8081,7 +8032,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8094,7 +8045,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     l.start();
@@ -8107,7 +8058,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
 
                                             inc++;
 
@@ -8153,7 +8104,7 @@ else
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8166,7 +8117,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -8178,7 +8129,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -8191,7 +8142,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
                                             if (inc < text_length) {
                                                 validate(text_char[inc]);
@@ -8233,7 +8184,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8247,7 +8198,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8261,7 +8212,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8275,7 +8226,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //       t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -8317,7 +8268,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8331,7 +8282,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8345,7 +8296,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8359,7 +8310,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(720);
+                                            SystemClock.sleep(240);
                                             inc++;
 
                                             if (inc < text_length) {
@@ -8401,7 +8352,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8415,7 +8366,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -8429,7 +8380,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
@@ -8445,7 +8396,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -8464,7 +8415,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
@@ -8477,7 +8428,7 @@ else
                                                             l.stop();
                                                             l.release();
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
 
                                                             if (inc < text_length) {
@@ -8529,7 +8480,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -8543,7 +8494,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8556,7 +8507,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8571,7 +8522,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8587,7 +8538,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8602,7 +8553,7 @@ else
                                                             l.release();
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
 
 
@@ -8659,7 +8610,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8673,7 +8624,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8690,7 +8641,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -8707,7 +8658,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8723,7 +8674,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -8739,7 +8690,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
 
                                                             if (inc < text_length) {
@@ -8786,7 +8737,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -8800,7 +8751,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -8812,7 +8763,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -8827,7 +8778,7 @@ else
                                             //       t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             l.start();
@@ -8840,7 +8791,7 @@ else
                                                     l.stop();
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -8888,7 +8839,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -8902,7 +8853,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -8915,7 +8866,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -8930,7 +8881,7 @@ else
                                             //       t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -8943,7 +8894,7 @@ else
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                                     l.start();
@@ -8956,7 +8907,7 @@ else
                                                             l.stop();
                                                             l.release();
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -9009,7 +8960,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9023,7 +8974,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9038,7 +8989,7 @@ else
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -9054,7 +9005,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
@@ -9069,7 +9020,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -9085,7 +9036,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
 
                                                             if (inc < text_length) {
@@ -9134,7 +9085,7 @@ else
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9148,7 +9099,7 @@ else
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -9162,7 +9113,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9181,7 +9132,7 @@ else
                                             //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9196,7 +9147,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9212,7 +9163,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -9262,7 +9213,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -9276,7 +9227,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9289,7 +9240,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     l.start();
@@ -9304,7 +9255,7 @@ else
                                             //    t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -9320,7 +9271,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                                     l.start();
@@ -9333,7 +9284,7 @@ else
                                                             l.release();
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -9388,7 +9339,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -9402,7 +9353,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9421,7 +9372,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9436,7 +9387,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9451,7 +9402,7 @@ else
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9466,7 +9417,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -9517,7 +9468,7 @@ else
                     m.stop();
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9531,7 +9482,7 @@ else
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                             l.start();
@@ -9545,7 +9496,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9564,7 +9515,7 @@ else
                                             //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9580,7 +9531,7 @@ else
                                                     l.stop();
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -9630,7 +9581,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9644,7 +9595,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9661,7 +9612,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9678,7 +9629,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9694,7 +9645,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -9736,7 +9687,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9750,7 +9701,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9764,7 +9715,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9778,7 +9729,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9792,7 +9743,7 @@ else
                                                     l.stop();
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -9838,7 +9789,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9852,7 +9803,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9866,7 +9817,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9880,7 +9831,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -9893,7 +9844,7 @@ else
                                                     l.start();
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -9940,7 +9891,7 @@ else
                     m.release();
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9954,7 +9905,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9968,7 +9919,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9982,7 +9933,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -9995,7 +9946,7 @@ else
                                                     m.start();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -10042,7 +9993,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -10056,7 +10007,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -10068,7 +10019,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -10081,7 +10032,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -10094,7 +10045,7 @@ else
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -10142,7 +10093,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -10156,7 +10107,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10169,7 +10120,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10184,7 +10135,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //        t.setTextColor(Color.parseColor("#000000"));
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10198,7 +10149,7 @@ else
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
 
@@ -10244,7 +10195,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -10258,7 +10209,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10277,7 +10228,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10293,7 +10244,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10308,7 +10259,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -10354,7 +10305,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -10368,7 +10319,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10387,7 +10338,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10403,7 +10354,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10418,7 +10369,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -10464,7 +10415,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                     l.start();
@@ -10478,7 +10429,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10497,7 +10448,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10513,7 +10464,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10528,7 +10479,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -10574,7 +10525,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -10588,7 +10539,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10601,7 +10552,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     l.start();
@@ -10616,7 +10567,7 @@ else
                                             //    t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -10632,7 +10583,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                                     l.start();
@@ -10645,7 +10596,7 @@ else
                                                             l.release();
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -10697,7 +10648,7 @@ else
                     l.release();
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -10711,7 +10662,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10724,7 +10675,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     l.start();
@@ -10739,7 +10690,7 @@ else
                                             //    t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -10754,7 +10705,7 @@ else
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -10804,7 +10755,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -10818,7 +10769,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -10831,7 +10782,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                     l.start();
@@ -10845,7 +10796,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -10857,7 +10808,7 @@ else
                                                     m.stop();
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
 
                                                     inc++;
 
@@ -10906,7 +10857,7 @@ else
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -10919,7 +10870,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -10931,7 +10882,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -10945,7 +10896,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -10959,7 +10910,7 @@ else
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
                                                     if (inc < text_length) {
                                                         validate(text_char[inc]);
@@ -11005,7 +10956,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -11019,7 +10970,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11032,7 +10983,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -11047,7 +10998,7 @@ else
                                             //      t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             l.start();
@@ -11061,7 +11012,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                                     l.start();
@@ -11074,7 +11025,7 @@ else
                                                             l.release();
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -11123,7 +11074,7 @@ else
                     l.release();
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                     m.start();
@@ -11137,7 +11088,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11150,7 +11101,7 @@ else
                                     l.stop();
                                     l.release();
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -11165,7 +11116,7 @@ else
                                             //      t.setTextColor(Color.parseColor("#000000"));
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             l.start();
@@ -11179,7 +11130,7 @@ else
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                                     m.start();
@@ -11192,7 +11143,7 @@ else
                                                             m.release();
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
 
                                                             inc++;
 
@@ -11241,7 +11192,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11255,7 +11206,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -11269,7 +11220,7 @@ else
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
@@ -11285,7 +11236,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
@@ -11303,7 +11254,7 @@ else
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
 
                                                     if (inc < text_length) {
@@ -11352,7 +11303,7 @@ else
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11366,7 +11317,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11383,7 +11334,7 @@ else
                                     //   t.setTextColor(Color.parseColor("#000000"));
 
 
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11400,7 +11351,7 @@ else
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11416,7 +11367,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11432,7 +11383,7 @@ else
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
 
                                                             if (inc < text_length) {
@@ -11478,7 +11429,7 @@ else
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11491,7 +11442,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -11503,7 +11454,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -11516,7 +11467,7 @@ else
                                             m.release();
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             //    t.setTextColor(Color.parseColor("#000000"));
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                             m.start();
@@ -11530,7 +11481,7 @@ else
                                                     m.release();
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                                                    SystemClock.sleep(720);
+                                                    SystemClock.sleep(240);
                                                     inc++;
                                                     if (inc < text_length) {
                                                         validate(text_char[inc]);
@@ -11577,7 +11528,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11591,7 +11542,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11605,7 +11556,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11619,7 +11570,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11635,7 +11586,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11650,7 +11601,7 @@ else
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
 
                                                             if (inc < text_length) {
@@ -11700,7 +11651,7 @@ else
                     m.release();
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11714,7 +11665,7 @@ else
                             m.stop();
                             m.release();
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11728,7 +11679,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
 
                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11742,7 +11693,7 @@ else
                                             l.release();
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
 
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11758,7 +11709,7 @@ else
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
@@ -11774,7 +11725,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(240);
+                                                            SystemClock.sleep(80);
 
 
                                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11789,7 +11740,7 @@ else
                                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
 
-                                                                    SystemClock.sleep(720);
+                                                                    SystemClock.sleep(240);
                                                                     inc++;
 
                                                                     if (inc < text_length) {
@@ -11844,7 +11795,7 @@ else
 
                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
-                    SystemClock.sleep(240);
+                    SystemClock.sleep(80);
 
 
                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
@@ -11857,7 +11808,7 @@ else
                             l.stop();
                             l.release();
                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
-                            SystemClock.sleep(240);
+                            SystemClock.sleep(80);
 
                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                             m.start();
@@ -11869,7 +11820,7 @@ else
                                     m.stop();
                                     m.release();
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
-                                    SystemClock.sleep(240);
+                                    SystemClock.sleep(80);
 
                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                     m.start();
@@ -11883,7 +11834,7 @@ else
                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                            SystemClock.sleep(240);
+                                            SystemClock.sleep(80);
 
                                             l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
                                             l.start();
@@ -11898,7 +11849,7 @@ else
                                                     l.release();
                                                     l = MediaPlayer.create(MainActivity.this, R.raw.morse_long);
 
-                                                    SystemClock.sleep(240);
+                                                    SystemClock.sleep(80);
 
                                                     m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
                                                     m.start();
@@ -11912,7 +11863,7 @@ else
                                                             m = MediaPlayer.create(MainActivity.this, R.raw.morse_short);
 
 
-                                                            SystemClock.sleep(720);
+                                                            SystemClock.sleep(240);
                                                             inc++;
                                                             if (inc < text_length) {
                                                                 validate(text_char[inc]);
@@ -11949,22 +11900,12 @@ else
                 }
             });
 
-        }
-
-
-
-
-
-
-
-        else if(text==' ') {
+        } else if (text == ' ') {
             if (inc == text_length) {
                 play_stop.setImageResource(R.drawable.play_button);
                 spin.setEnabled(true);
 
-            }
-            else if (inc > 0)
-            {
+            } else if (inc > 0) {
                 if (get_text_box.charAt(inc) == ' ' && get_text_box.charAt(inc - 1) == ' ') {
 
                     inc++;
@@ -11981,13 +11922,10 @@ else
                     }
 
 
-                }
-
-                else if(get_text_box.charAt(inc)==' ')
-                {
+                } else if (get_text_box.charAt(inc) == ' ') {
                     morse_code_text += "/ ";
 
-                    SystemClock.sleep(1680);
+                    SystemClock.sleep(560);
 
 
                     inc++;
@@ -12004,10 +11942,7 @@ else
 
                     }
                 }
-            }
-
-            else
-            {
+            } else {
                 inc++;
                 if (inc < text_length) {
                     validate(text_char[inc]);
@@ -12021,17 +11956,7 @@ else
 
                 }
             }
-        }
-
-
-
-
-
-
-
-
-
-        else {
+        } else {
             inc++;
 
             if (inc < text_length) {
